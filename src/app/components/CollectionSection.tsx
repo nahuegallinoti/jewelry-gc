@@ -80,10 +80,10 @@ export default function CollectionSection({
             <div className="absolute left-2 sm:left-6 top-1/2 transform -translate-y-1/2 z-40">
               <button
                 onClick={prevProduct}
-                className="bg-blue/80 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-md hover:bg-white transition-colors"
+                className="bg-white/80 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-md hover:bg-white transition-colors"
                 aria-label="Producto anterior"
               >
-                <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 text-black" />
+                <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 text-white sm:text-black" />
               </button>
             </div>
             <div className="absolute right-2 sm:right-6 top-1/2 transform -translate-y-1/2 z-40">
@@ -92,7 +92,7 @@ export default function CollectionSection({
                 className="bg-white/80 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-md hover:bg-white transition-colors"
                 aria-label="Siguiente producto"
               >
-                <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-black" />
+                <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-white sm:text-black" />
               </button>
             </div>
             {/* Indicadores carrusel */}

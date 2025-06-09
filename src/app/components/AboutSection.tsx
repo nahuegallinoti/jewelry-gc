@@ -21,7 +21,7 @@ export default function AboutSection({ zoomLevel }: AboutSectionProps) {
         transition: "transform 0.8s cubic-bezier(0.4,0,0.2,1)",
       }}
     >
-      <div className="w-full max-w-6xl px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div className="w-full max-w-6xl px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center mt-24 md:mt-0">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
