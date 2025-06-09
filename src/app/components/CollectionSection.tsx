@@ -96,7 +96,7 @@ export default function CollectionSection({
             </div>
 
             {/* Contenedor carrusel */}
-            <div className="w-full max-w-xs sm:max-w-2xl md:max-w-6xl px-2 sm:px-6 flex items-center justify-center overflow-hidden">
+            <div className="w-full max-w-6xl px-2 sm:px-6 flex items-center justify-center overflow-hidden">
               <motion.div
                 className="flex items-center"
                 initial={false}
@@ -104,37 +104,43 @@ export default function CollectionSection({
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 style={{ width: `${featuredProducts.length * 100}%` }}
               >
-                {featuredProducts.map((product) => (
-                  <motion.div
-                    key={product.id}
-                    className="w-full flex justify-center px-1 sm:px-4 my-8"
-                    initial={{ opacity: 0.6 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <div
-                      className="group relative cursor-pointer w-full max-w-[280px] sm:max-w-[320px] md:max-w-[400px] transition-all duration-300 hover:scale-105"
-                      onClick={() => viewProductDetail(product.id)}
+                {featuredProducts.map((product, index) => {
+                  // Solo mostrar 3 productos por página
+                  const pageIndex = Math.floor(index / 3)
+                  const isVisible = Math.floor(currentProductIndex / 3) === pageIndex
+                  
+                  return (
+                    <motion.div
+                      key={product.id}
+                      className="w-full flex justify-center px-1 sm:px-4 my-8"
+                      initial={{ opacity: 0.6 }}
+                      animate={{ opacity: isVisible ? 1 : 0.6 }}
+                      transition={{ duration: 0.4 }}
                     >
-                      <div className="aspect-square overflow-hidden bg-gray-100 rounded-lg shadow-lg">
-                        <div className="relative w-full h-full">
-                          <Image
-                            src={product.images[0] || "/placeholder.svg"}
-                            alt={product.name}
-                            fill
-                            sizes="(max-width: 768px) 100vw, 33vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-110"
-                          />
+                      <div
+                        className="group relative cursor-pointer w-full max-w-[280px] sm:max-w-[320px] md:max-w-[400px] transition-all duration-300 hover:scale-105"
+                        onClick={() => viewProductDetail(product.id)}
+                      >
+                        <div className="aspect-square overflow-hidden bg-gray-100 rounded-lg shadow-lg">
+                          <div className="relative w-full h-full">
+                            <Image
+                              src={product.images[0] || "/placeholder.svg"}
+                              alt={product.name}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 33vw"
+                              className="object-cover transition-transform duration-500 group-hover:scale-110"
+                            />
+                          </div>
+                        </div>
+                        <div className="mt-4 text-center space-y-2">
+                          <h3 className="text-white text-lg sm:text-xl font-light tracking-wide">{product.name}</h3>
+                          <p className="text-[#D4AF37] font-medium text-base sm:text-lg">{product.price}</p>
+                          <p className="text-gray-400 text-sm sm:text-base line-clamp-2">{product.description}</p>
                         </div>
                       </div>
-                      <div className="mt-4 text-center space-y-2">
-                        <h3 className="text-white text-lg sm:text-xl font-light tracking-wide">{product.name}</h3>
-                        <p className="text-[#D4AF37] font-medium text-base sm:text-lg">{product.price}</p>
-                        <p className="text-gray-400 text-sm sm:text-base line-clamp-2">{product.description}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  )
+                })}
               </motion.div>
             </div>
           </motion.div>
