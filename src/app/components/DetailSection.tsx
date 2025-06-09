@@ -24,7 +24,25 @@ export default function DetailSection({
       className="absolute inset-0 flex flex-col items-center justify-center bg-black min-h-screen overflow-y-auto"
       onMouseMove={handleMouseMove}
     >
-      <div className="h-[60vh]"> </div>
+      <div className="relative z-10 text-center text-white px-6 max-w-4xl mx-auto mt-8 md:mt-0 md:mb-16">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="text-3xl md:text-5xl font-light tracking-wider mb-4"
+        >
+          {sections[2].title}
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="text-lg font-light"
+        >
+          {sections[2].subtitle}
+        </motion.p>
+      </div>
+      <div className="absolute inset-0 overflow-hidden">
         <div
           className="absolute inset-0 w-full h-full"
           style={{
@@ -39,36 +57,9 @@ export default function DetailSection({
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover scale-110 md:scale-100 transition-transform duration-1000 ease-in-out"
-            priority
           />
+        </div>
       </div>
-      <div className="relative z-10 text-center text-white px-6 max-w-4xl mx-auto mb-16 mt-32 md:mt-0">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-2xl sm:text-3xl md:text-5xl font-light tracking-wider mb-4"
-        >
-          {sections[2].title}
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-          className="text-base sm:text-lg font-light"
-        >
-          {sections[2].subtitle}
-        </motion.p>
-      </div>
-
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6, duration: 0.6 }}
-        className="absolute bottom-8 text-white/70 text-sm font-light"
-      >
-        Mueve el cursor para explorar detalles
-      </motion.p>
     </motion.div>
   )
 } 

@@ -169,8 +169,34 @@ export default function CollectionSection({
               </button>
 
               <div className="w-full max-w-6xl px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                {/* Detalles del producto */}
+                <div className="flex flex-col order-2 md:order-1">
+                  <h2 className="text-3xl text-white font-light mb-2">{product.name}</h2>
+                  <p className="text-2xl text-[#D4AF37] font-medium mb-6">{product.price}</p>
+                  <p className="text-gray-300 mb-6 leading-relaxed">{product.longDescription}</p>
+                  <div className="mb-8">
+                    <h3 className="text-lg text-white font-medium mb-3">Detalles</h3>
+                    <ul className="space-y-2">
+                      {product.details.map((detail, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="text-[#D4AF37] mr-2">•</span>
+                          <span className="text-gray-300">{detail}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="mt-auto flex space-x-4">
+                    <button className="flex-1 bg-black hover:bg-gray-800 text-white text-sm uppercase tracking-wider py-6">
+                      Añadir al carrito
+                    </button>
+                    <button className="flex-1 border-black hover:bg-black text-white text-sm uppercase tracking-wider py-6">
+                      Personalizar
+                    </button>
+                  </div>
+                </div>
+
                 {/* Imágenes del producto */}
-                <div className="relative">
+                <div className="relative order-1 md:order-2">
                   <div className="aspect-square overflow-hidden bg-gray-100 rounded-lg shadow-lg">
                     <div className="relative w-full h-full">
                       <AnimatePresence initial={false} mode="wait">
@@ -223,32 +249,6 @@ export default function CollectionSection({
                   >
                     <ChevronRight className="h-5 w-5 text-black" />
                   </button>
-                </div>
-
-                {/* Detalles del producto */}
-                <div className="flex flex-col">
-                  <h2 className="text-3xl text-white font-light mb-2">{product.name}</h2>
-                  <p className="text-2xl text-[#D4AF37] font-medium mb-6">{product.price}</p>
-                  <p className="text-gray-300 mb-6 leading-relaxed">{product.longDescription}</p>
-                  <div className="mb-8">
-                    <h3 className="text-lg text-white font-medium mb-3">Detalles</h3>
-                    <ul className="space-y-2">
-                      {product.details.map((detail, index) => (
-                        <li key={index} className="flex items-start">
-                          <span className="text-[#D4AF37] mr-2">•</span>
-                          <span className="text-gray-300">{detail}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="mt-auto flex space-x-4">
-                    <button className="flex-1 bg-black hover:bg-gray-800 text-white text-sm uppercase tracking-wider py-6">
-                      Añadir al carrito
-                    </button>
-                    <button className="flex-1 border-black hover:bg-black text-white text-sm uppercase tracking-wider py-6">
-                      Personalizar
-                    </button>
-                  </div>
                 </div>
               </div>
             </motion.div>
