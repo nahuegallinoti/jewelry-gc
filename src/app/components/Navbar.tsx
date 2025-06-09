@@ -1,49 +1,65 @@
 "use client"
-import Image from "next/image"
-import { Menu } from "lucide-react"
+import { motion } from "framer-motion"
 import { sections } from "../data/sections"
 
 interface NavbarProps {
   currentSection: number
-  navigateTo: (index: number) => void
-  setIsMenuOpen: (open: boolean) => void
+  setCurrentSection: (index: number) => void
 }
 
-export default function Navbar({ currentSection, navigateTo, setIsMenuOpen }: NavbarProps) {
+export default function Navbar({ currentSection, setCurrentSection }: NavbarProps) {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/40 backdrop-blur-sm shadow-lg border-b border-gray-200 pr-2">
-      <div className="max-w-full w-full px-4 sm:px-6 py-2 sm:py-4 flex justify-between items-center">
-        <a href="#" className="flex items-center space-x-2 sm:space-x-3 group" onClick={(e) => { e.preventDefault(); navigateTo(0); }}>
-          <Image
-            src="/logo.jpeg"
-            alt="Logo GABICA"
-            width={70}
-            height={70}
-            className="rounded-2xl shadow-lg border border-gray-600 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 bg-white"
-            priority
-          />
-        </a>
-        {/* Navegación de escritorio */}
-        <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
-          <div className="flex space-x-4 lg:space-x-8">
-            {sections.map((section, index) => (
-              <button
-                key={section.id}
-                onClick={() => navigateTo(index)}
-                className={`text-xs lg:text-sm uppercase tracking-wider transition-colors ${
-                  currentSection === index ? "text-[#fdcc73]" : "hover:text-[#fdcc73]"
-                }`}
-              >
-                {section.id}
-              </button>
-            ))}
+    <motion.nav
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+      className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-12 md:h-16">
+          <div className="flex-shrink-0">
+            <motion.h1
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-white text-lg md:text-2xl font-light tracking-wider"
+            >
+              JEWELRY GC
+            </motion.h1>
+          </div>
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-center space-x-8">
+              {sections.map((section, index) => (
+                <motion.button
+                  key={section.title}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 + index * 0.1 }}
+                  onClick={() => setCurrentSection(index)}
+                  className={`text-sm md:text-base font-light tracking-wider transition-colors duration-300 ${
+                    currentSection === index
+                      ? "text-white"
+                      : "text-white/50 hover:text-white"
+                  }`}
+                >
+                  {section.title}
+                </motion.button>
+              ))}
+            </div>
+          </div>
+          <div className="md:hidden">
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              onClick={() => setCurrentSection((currentSection + 1) % sections.length)}
+              className="text-white/50 hover:text-white text-sm font-light tracking-wider"
+            >
+              {sections[(currentSection + 1) % sections.length].title}
+            </motion.button>
           </div>
         </div>
-        {/* Botón menú móvil */}
-        <button className="md:hidden p-2" onClick={() => setIsMenuOpen(true)}>
-          <Menu className="h-6 w-6" />
-        </button>
       </div>
-    </nav>
+    </motion.nav>
   )
 } 

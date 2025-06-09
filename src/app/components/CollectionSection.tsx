@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, ArrowLeft } from "lucide-react"
 import Image from "next/image"
 import { sections } from "../data/sections"
 import { featuredProducts } from "../data/featuredProducts"
+import { useState, useRef, useEffect } from "react"
 
 interface CollectionSectionProps {
   zoomLevel: number
@@ -32,6 +33,93 @@ export default function CollectionSection({
   nextProductImage,
   prevProductImage,
 }: CollectionSectionProps) {
+  const [currentPage, setCurrentPage] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
+  const carouselRef = useRef<HTMLDivElement>(null)
+
+  const products = [
+    {
+      id: 1,
+      image: "https://images.unsplash.com/photo-1515405295579-ba7b45403062?q=80&w=1000&auto=format&fit=crop",
+      title: "Anillo de Diamantes",
+      price: "$1,200",
+    },
+    {
+      id: 2,
+      image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=1000&auto=format&fit=crop",
+      title: "Collar de Perlas",
+      price: "$800",
+    },
+    {
+      id: 3,
+      image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=1000&auto=format&fit=crop",
+      title: "Pendientes de Oro",
+      price: "$600",
+    },
+  ]
+
+  // Duplicar los productos para el carrusel infinito
+  const duplicatedProducts = [...products, ...products, ...products]
+
+  const totalPages = Math.ceil(duplicatedProducts.length / 3)
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => (prev === 0 ? totalPages - 1 : prev - 1))
+  }
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => (prev + 1) % totalPages)
+  }
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!carouselRef.current) return
+    setIsDragging(true)
+    setStartX(e.pageX - carouselRef.current.offsetLeft)
+    setScrollLeft(carouselRef.current.scrollLeft)
+  }
+
+  const handleMouseUp = () => {
+    setIsDragging(false)
+  }
+
+  const handleMouseLeave = () => {
+    setIsDragging(false)
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !carouselRef.current) return
+    e.preventDefault()
+    const x = e.pageX - carouselRef.current.offsetLeft
+    const walk = (x - startX) * 2
+    carouselRef.current.scrollLeft = scrollLeft - walk
+  }
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!carouselRef.current) return
+    setIsDragging(true)
+    setStartX(e.touches[0].pageX - carouselRef.current.offsetLeft)
+    setScrollLeft(carouselRef.current.scrollLeft)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging || !carouselRef.current) return
+    const x = e.touches[0].pageX - carouselRef.current.offsetLeft
+    const walk = (x - startX) * 2
+    carouselRef.current.scrollLeft = scrollLeft - walk
+  }
+
+  const handleTouchEnd = () => {
+    setIsDragging(false)
+  }
+
+  useEffect(() => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollLeft = currentPage * (carouselRef.current.offsetWidth / 3)
+    }
+  }, [currentPage])
+
   return (
     <motion.div
       key="collection"
@@ -44,6 +132,7 @@ export default function CollectionSection({
         transform: `scale(${zoomLevel})`,
         transition: "transform 0.8s ease-out",
       }}
+      onMouseMove={handleMouseMove}
     >
       <AnimatePresence mode="wait">
         {/* Vista Carrusel */}
@@ -96,7 +185,7 @@ export default function CollectionSection({
             </div>
 
             {/* Contenedor carrusel */}
-            <div className="w-full max-w-6xl px-2 sm:px-6 flex items-center justify-center overflow-hidden">
+            <div className="w-full max-w-xs sm:max-w-2xl md:max-w-6xl px-2 sm:px-6 flex items-center justify-center overflow-hidden">
               <motion.div
                 className="flex items-center"
                 initial={false}
@@ -104,44 +193,55 @@ export default function CollectionSection({
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 style={{ width: `${featuredProducts.length * 100}%` }}
               >
-                {featuredProducts.map((product, index) => {
-                  // Solo mostrar 3 productos por página
-                  const pageIndex = Math.floor(index / 3)
-                  const isVisible = Math.floor(currentProductIndex / 3) === pageIndex
-                  
-                  return (
+                <div
+                  ref={carouselRef}
+                  className="flex overflow-x-hidden scroll-smooth"
+                  onMouseDown={handleMouseDown}
+                  onMouseUp={handleMouseUp}
+                  onMouseLeave={handleMouseLeave}
+                  onMouseMove={handleMouseMove}
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
+                >
+                  {duplicatedProducts.map((product, index) => (
                     <motion.div
-                      key={product.id}
-                      className="w-full flex justify-center px-1 sm:px-4 my-8"
-                      initial={{ opacity: 0.6 }}
-                      animate={{ opacity: isVisible ? 1 : 0.6 }}
-                      transition={{ duration: 0.4 }}
+                      key={`${product.id}-${index}`}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 + index * 0.1, duration: 0.6 }}
+                      className="flex-none w-1/3 px-2"
                     >
-                      <div
-                        className="group relative cursor-pointer w-full max-w-[280px] sm:max-w-[320px] md:max-w-[400px] transition-all duration-300 hover:scale-105"
-                        onClick={() => viewProductDetail(product.id)}
-                      >
-                        <div className="aspect-square overflow-hidden bg-gray-100 rounded-lg shadow-lg">
-                          <div className="relative w-full h-full">
-                            <Image
-                              src={product.images[0] || "/placeholder.svg"}
-                              alt={product.name}
-                              fill
-                              sizes="(max-width: 768px) 100vw, 33vw"
-                              className="object-cover transition-transform duration-500 group-hover:scale-110"
-                            />
+                      <div className="relative aspect-[3/4] overflow-hidden rounded-lg">
+                        <img
+                          src={product.image}
+                          alt={product.title}
+                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300">
+                          <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                            <h3 className="text-lg font-light">{product.title}</h3>
+                            <p className="text-sm text-white/80">{product.price}</p>
                           </div>
-                        </div>
-                        <div className="mt-4 text-center space-y-2">
-                          <h3 className="text-white text-lg sm:text-xl font-light tracking-wide">{product.name}</h3>
-                          <p className="text-[#D4AF37] font-medium text-base sm:text-lg">{product.price}</p>
-                          <p className="text-gray-400 text-sm sm:text-base line-clamp-2">{product.description}</p>
                         </div>
                       </div>
                     </motion.div>
-                  )
-                })}
+                  ))}
+                </div>
               </motion.div>
+            </div>
+
+            <div className="flex justify-center mt-8 space-x-2">
+              {Array.from({ length: totalPages }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentPage(index)}
+                  className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+                    currentPage === index ? "bg-white" : "bg-white/30"
+                  }`}
+                  aria-label={`Ir a página ${index + 1}`}
+                />
+              ))}
             </div>
           </motion.div>
         )}
