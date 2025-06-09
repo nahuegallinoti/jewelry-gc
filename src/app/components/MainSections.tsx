@@ -12,6 +12,7 @@ import { testimonials } from "../data/testimonials"
 import { useProductCarousel } from "../hooks/useProductCarousel"
 import { useTestimonialCarousel } from "../hooks/useTestimonialCarousel"
 import { useDetailZoom } from "../hooks/useDetailZoom"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface MainSectionsProps {
   currentSection: number
@@ -174,6 +175,37 @@ export default function MainSections({ currentSection, navigateTo, nextSection, 
           zoomLevel={zoomLevel}
         />
       )}
+      {/* Indicadores de navegación móvil */}
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 flex flex-col items-center md:hidden">
+        <div className="flex space-x-2 mb-2">
+          {sections.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => navigateTo(index)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                currentSection === index ? "bg-[#D4AF37] w-4" : "bg-white/50 hover:bg-white/70"
+              }`}
+              aria-label={`Ir a sección ${index + 1}`}
+            />
+          ))}
+        </div>
+        <div className="flex space-x-4">
+          <button
+            onClick={prevSection}
+            className="bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-md hover:bg-white transition-colors"
+            aria-label="Sección anterior"
+          >
+            <ChevronLeft className="h-5 w-5 text-black" />
+          </button>
+          <button
+            onClick={nextSection}
+            className="bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-md hover:bg-white transition-colors"
+            aria-label="Siguiente sección"
+          >
+            <ChevronRight className="h-5 w-5 text-black" />
+          </button>
+        </div>
+      </div>
     </div>
   )
 } 

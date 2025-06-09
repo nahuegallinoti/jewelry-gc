@@ -126,24 +126,24 @@ export default function CollectionSection({
                     transition={{ duration: 0.4 }}
                   >
                     <div
-                      className="group relative cursor-pointer max-w-xs sm:max-w-md w-full transition-transform duration-300 hover:scale-105"
+                      className="group relative cursor-pointer w-full max-w-[280px] sm:max-w-[320px] md:max-w-[400px] transition-all duration-300 hover:scale-105"
                       onClick={() => viewProductDetail(product.id)}
                     >
-                      <div className="aspect-square overflow-hidden bg-gray-100 rounded-lg">
+                      <div className="aspect-square overflow-hidden bg-gray-100 rounded-lg shadow-lg">
                         <div className="relative w-full h-full">
                           <Image
                             src={product.images[0] || "/placeholder.svg"}
                             alt={product.name}
                             fill
                             sizes="(max-width: 768px) 100vw, 33vw"
-                            className="object-cover"
+                            className="object-cover transition-transform duration-500 group-hover:scale-110"
                           />
                         </div>
                       </div>
-                      <div className="mt-4 text-center">
-                        <h3 className="text-white sm:text-xl font-light">{product.name}</h3>
-                        <p className="text-[#D4AF37] font-medium mt-1 text-sm sm:text-base">{product.price}</p>
-                        <p className="text-xs sm:text-sm text-gray-400 mt-2">{product.description}</p>
+                      <div className="mt-4 text-center space-y-2">
+                        <h3 className="text-white text-lg sm:text-xl font-light tracking-wide">{product.name}</h3>
+                        <p className="text-[#D4AF37] font-medium text-base sm:text-lg">{product.price}</p>
+                        <p className="text-gray-400 text-sm sm:text-base line-clamp-2">{product.description}</p>
                       </div>
                     </div>
                   </motion.div>
