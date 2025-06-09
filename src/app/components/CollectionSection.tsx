@@ -59,14 +59,14 @@ export default function CollectionSection({
             className="w-full h-full flex flex-col items-center justify-center"
           >
             <div className="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto mb-4 sm:mb-8">
-                <motion.h2
+              <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
                 className="text-2xl sm:text-3xl md:text-5xl font-light tracking-wider mb-2 sm:mb-4 text-white"
-                >
+              >
                 {sections[1].title}
-                </motion.h2>
+              </motion.h2>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -76,6 +76,7 @@ export default function CollectionSection({
                 {sections[1].subtitle}
               </motion.p>
             </div>
+
             {/* Navegación carrusel */}
             <div className="absolute left-2 sm:left-6 top-1/2 transform -translate-y-1/2 z-40">
               <button
@@ -95,19 +96,7 @@ export default function CollectionSection({
                 <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-white sm:text-black" />
               </button>
             </div>
-            {/* Indicadores carrusel */}
-            <div className="absolute bottom-12 sm:bottom-16 left-1/2 transform -translate-x-1/2 z-40 flex space-x-2">
-              {featuredProducts.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentProductIndex(i)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    currentProductIndex === i ? "bg-black w-4" : "bg-gray-300 hover:bg-gray-400"
-                  }`}
-                  aria-label={`Ir al producto ${i + 1}`}
-                />
-              ))}
-            </div>
+
             {/* Contenedor carrusel */}
             <div className="w-full max-w-xs sm:max-w-2xl md:max-w-6xl px-2 sm:px-6 flex items-center justify-center overflow-hidden">
               <motion.div
@@ -150,16 +139,9 @@ export default function CollectionSection({
                 ))}
               </motion.div>
             </div>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-              className="absolute bottom-4 sm:bottom-8 text-gray-500 text-xs sm:text-sm font-light"
-            >
-              Swipe o usa las flechas para navegar • Haz clic para ver detalles
-            </motion.p>
           </motion.div>
         )}
+
         {/* Vista Detalle de Producto */}
         {selectedProduct !== null && (() => {
           const product = featuredProducts.find((p) => p.id === selectedProduct)
@@ -181,6 +163,7 @@ export default function CollectionSection({
                 <ArrowLeft className="h-5 w-5" />
                 <span className="text-md uppercase tracking-wider">Volver a la colección</span>
               </button>
+
               <div className="w-full max-w-6xl px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 {/* Imágenes del producto */}
                 <div className="relative">
@@ -206,6 +189,7 @@ export default function CollectionSection({
                       </AnimatePresence>
                     </div>
                   </div>
+
                   {/* Navegación de imágenes */}
                   <div className="flex justify-center mt-4 space-x-2">
                     {product.images.map((_, index) => (
@@ -213,12 +197,13 @@ export default function CollectionSection({
                         key={index}
                         onClick={() => setCurrentProductImageIndex(index)}
                         className={`w-2 h-2 rounded-full transition-all ${
-                          currentProductImageIndex === index ? "bg-black w-4" : "bg-gray-300 hover:bg-gray-400"
+                          currentProductImageIndex === index ? "bg-[#D4AF37] w-4" : "bg-gray-300 hover:bg-gray-400"
                         }`}
                         aria-label={`Ver imagen ${index + 1}`}
                       />
                     ))}
                   </div>
+
                   {/* Flechas de imagen */}
                   <button
                     onClick={prevProductImage}
@@ -235,6 +220,7 @@ export default function CollectionSection({
                     <ChevronRight className="h-5 w-5 text-black" />
                   </button>
                 </div>
+
                 {/* Detalles del producto */}
                 <div className="flex flex-col">
                   <h2 className="text-3xl text-white font-light mb-2">{product.name}</h2>
@@ -255,9 +241,7 @@ export default function CollectionSection({
                     <button className="flex-1 bg-black hover:bg-gray-800 text-white text-sm uppercase tracking-wider py-6">
                       Añadir al carrito
                     </button>
-                    <button
-                      className="flex-1 border-black hover:bg-black text-white text-sm uppercase tracking-wider py-6"
-                    >
+                    <button className="flex-1 border-black hover:bg-black text-white text-sm uppercase tracking-wider py-6">
                       Personalizar
                     </button>
                   </div>

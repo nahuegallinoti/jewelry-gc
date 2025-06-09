@@ -23,7 +23,14 @@ interface MainSectionsProps {
   isTransitioning: boolean
 }
 
-export default function MainSections({ currentSection, navigateTo, nextSection, prevSection, zoomLevel, isTransitioning }: MainSectionsProps) {
+export default function MainSections({
+  currentSection,
+  navigateTo,
+  nextSection,
+  prevSection,
+  zoomLevel,
+  isTransitioning,
+}: MainSectionsProps) {
   // Productos
   const {
     currentProductIndex,
@@ -78,17 +85,27 @@ export default function MainSections({ currentSection, navigateTo, nextSection, 
   // Navegación teclado y scroll
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (currentSection ==1 && selectedProduct !== null && e.key === "Escape") { setSelectedProduct(null); return }
-      if (currentSection ==1 && selectedProduct === null) {
-        if (e.key === "ArrowRight") { nextProduct(); return }
-        else if (e.key === "ArrowLeft") { prevProduct(); return }
+      if (currentSection === 1 && selectedProduct !== null && e.key === "Escape") {
+        setSelectedProduct(null)
+        return
+      }
+      if (currentSection === 1 && selectedProduct === null) {
+        if (e.key === "ArrowRight") {
+          nextProduct()
+          return
+        }
+        else if (e.key === "ArrowLeft") {
+          prevProduct()
+          return
+        }
       }
       if (e.key === "ArrowRight" || e.key === "ArrowDown") nextSection()
       else if (e.key === "ArrowLeft" || e.key === "ArrowUp") prevSection()
     }
+
     const handleWheel = (e: WheelEvent) => {
-      if (currentSection ==1 && selectedProduct !== null) return
-      if (currentSection ==1 && selectedProduct === null) {
+      if (currentSection === 1 && selectedProduct !== null) return
+      if (currentSection === 1 && selectedProduct === null) {
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
           e.preventDefault()
           if (e.deltaX > 0) nextProduct()
@@ -101,6 +118,7 @@ export default function MainSections({ currentSection, navigateTo, nextSection, 
       if (e.deltaY > 0) nextSection()
       else if (e.deltaY < 0) prevSection()
     }
+
     window.addEventListener("keydown", handleKeyDown)
     window.addEventListener("wheel", handleWheel, { passive: false })
     return () => {
@@ -110,43 +128,11 @@ export default function MainSections({ currentSection, navigateTo, nextSection, 
   }, [currentSection, isTransitioning, selectedProduct, currentProductIndex, nextProduct, prevProduct, nextSection, prevSection, setSelectedProduct])
 
   return (
-    <div className="flex-1 w-full relative overflow-hidden pt-16 sm:pt-20">
-      {/* Flechas e indicadores */}
-      {currentSection !=1 && (
-        <>
-          <button
-            onClick={prevSection}
-            className={`hidden sm:flex absolute left-2 sm:left-6 top-1/2 transform -translate-y-1/2 z-40 transition-opacity ${currentSection === 0 ? "opacity-30 cursor-not-allowed" : "opacity-70 hover:opacity-100"}`}
-            disabled={currentSection === 0}
-          >
-            <span className="sr-only">Anterior</span>
-            <svg className="h-8 w-8 sm:h-10 sm:w-10 text-white drop-shadow-lg" fill="none" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          </button>
-          <button
-            onClick={nextSection}
-            className={`hidden sm:flex absolute right-2 sm:right-6 top-1/2 transform -translate-y-1/2 z-40 transition-opacity ${currentSection === sections.length - 1 ? "opacity-30 cursor-not-allowed" : "opacity-70 hover:opacity-100"}`}
-            disabled={currentSection === sections.length - 1}
-          >
-            <span className="sr-only">Siguiente</span>
-            <svg className="h-8 w-8 sm:h-10 sm:w-10 text-white drop-shadow-lg" fill="none" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          </button>
-        </>
-      )}
-      {currentSection !=1 && (
-        <SectionIndicators currentSection={currentSection} navigateTo={navigateTo} />
-      )}
-      {/* Secciones */}
+    <div className="relative w-full h-full">
       {currentSection === 0 && (
         <HomeSection zoomLevel={zoomLevel} navigateTo={navigateTo} />
       )}
-      {currentSection == 2 && (
-        <DetailSection
-          zoomLevel={zoomLevel}
-          zoomPoint={zoomPoint}
-          handleMouseMove={handleMouseMove}
-        />
-      )}
-      {currentSection ==1 && (
+      {currentSection === 1 && (
         <CollectionSection
           zoomLevel={zoomLevel}
           currentProductIndex={currentProductIndex}
@@ -162,6 +148,13 @@ export default function MainSections({ currentSection, navigateTo, nextSection, 
           prevProductImage={prevProductImage}
         />
       )}
+      {currentSection === 2 && (
+        <DetailSection
+          zoomLevel={zoomLevel}
+          zoomPoint={zoomPoint}
+          handleMouseMove={handleMouseMove}
+        />
+      )}
       {currentSection === 3 && (
         <AboutSection zoomLevel={zoomLevel} />
       )}
@@ -175,6 +168,7 @@ export default function MainSections({ currentSection, navigateTo, nextSection, 
           zoomLevel={zoomLevel}
         />
       )}
+
       {/* Indicadores de navegación móvil */}
       <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 flex flex-col items-center md:hidden">
         <div className="flex space-x-2 mb-2">
