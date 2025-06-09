@@ -17,9 +17,9 @@ export default function Navbar({ currentSection, navigateTo, setIsMenuOpen }: Na
           <Image
             src="/logo.jpeg"
             alt="Logo GABICA"
-            width={70}
-            height={70}
-            className="rounded-2xl shadow-lg border border-gray-600 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 bg-white"
+            width={50}
+            height={50}
+            className="rounded-xl shadow-lg border border-gray-600 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 bg-white"
             priority
           />
         </a>
