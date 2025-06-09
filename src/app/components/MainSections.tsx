@@ -5,7 +5,6 @@ import DetailSection from "./DetailSection"
 import CollectionSection from "./CollectionSection"
 import AboutSection from "./AboutSection"
 import TestimonialsSection from "./TestimonialsSection"
-import SectionIndicators from "./SectionIndicators"
 import { sections } from "../data/sections"
 import { featuredProducts } from "../data/featuredProducts"
 import { testimonials } from "../data/testimonials"
@@ -34,7 +33,6 @@ export default function MainSections({
   // Productos
   const {
     currentProductIndex,
-    setCurrentProductIndex,
     selectedProduct,
     setSelectedProduct,
     currentProductImageIndex,
@@ -136,7 +134,6 @@ export default function MainSections({
         <CollectionSection
           zoomLevel={zoomLevel}
           currentProductIndex={currentProductIndex}
-          setCurrentProductIndex={setCurrentProductIndex}
           selectedProduct={selectedProduct}
           currentProductImageIndex={currentProductImageIndex}
           setCurrentProductImageIndex={setCurrentProductImageIndex}

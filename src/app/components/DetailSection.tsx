@@ -60,15 +60,6 @@ export default function DetailSection({
           {sections[2].subtitle}
         </motion.p>
       </div>
-
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6, duration: 0.6 }}
-        className="absolute bottom-8 text-white/70 text-sm font-light"
-      >
-        Move your cursor to explore details
-      </motion.p>
     </motion.div>
   )
 } 

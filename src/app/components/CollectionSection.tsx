@@ -8,7 +8,6 @@ import { featuredProducts } from "../data/featuredProducts"
 interface CollectionSectionProps {
   zoomLevel: number
   currentProductIndex: number
-  setCurrentProductIndex: (idx: number) => void
   selectedProduct: number | null
   currentProductImageIndex: number
   setCurrentProductImageIndex: (idx: number) => void
@@ -23,7 +22,6 @@ interface CollectionSectionProps {
 export default function CollectionSection({
   zoomLevel,
   currentProductIndex,
-  setCurrentProductIndex,
   selectedProduct,
   currentProductImageIndex,
   setCurrentProductImageIndex,
