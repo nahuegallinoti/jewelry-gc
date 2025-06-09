@@ -24,7 +24,7 @@ export default function DetailSection({
       className="absolute inset-0 flex flex-col items-center justify-center bg-black min-h-screen overflow-y-auto"
       onMouseMove={handleMouseMove}
     >
-      <div className="absolute inset-0 overflow-hidden mt-24 md:mt-0">
+      <div className="h-[60vh]"> </div>
         <div
           className="absolute inset-0 w-full h-full"
           style={{
@@ -41,7 +41,6 @@ export default function DetailSection({
             className="object-cover scale-110 md:scale-100 transition-transform duration-1000 ease-in-out"
             priority
           />
-        </div>
       </div>
       <div className="relative z-10 text-center text-white px-6 max-w-4xl mx-auto mb-16 mt-32 md:mt-0">
         <motion.h2
